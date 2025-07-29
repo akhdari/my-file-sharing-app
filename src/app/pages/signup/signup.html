@@ -1,0 +1,13 @@
+<form class="form-group" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+  <input type="text" name="username" placeholder="Username" formControlName="username" />
+  <input type="email" name="email" placeholder="Email" formControlName="email" />
+  <input type="password" name="password" placeholder="Password" formControlName="password" />
+
+  <!-- FIXED: checkbox inside form and bound -->
+  <label class="card-terms">
+    <input type="checkbox" formControlName="termsAccepted" />
+    I have read and agree to the <a href="">Terms of Service</a>
+  </label>
+
+  <button type="submit">Signup</button>
+</form>
