@@ -20,15 +20,16 @@
   transition: width 0.3s ease-in-out;
 }
 
-.generated-links {
+.shareable-link,
+.skipped-files {
   margin-top: 20px;
 }
 
-.generated-links ul {
+.skipped-files ul {
   list-style: none;
   padding: 0;
 }
 
-.generated-links li {
+.skipped-files li {
   margin-bottom: 10px;
 }

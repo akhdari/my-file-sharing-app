@@ -1,51 +1,67 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // ✅ for *ngIf, *ngFor
-import { Upload } from './upload.service';
-import { HttpEventType } from '@angular/common/http';
+import { UploadService } from './upload.service';
+import { HttpEventType, HttpEvent } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-upload',
-  standalone: true, // ✅ important if you're using standalone components
+  selector: 'app-uploads',
   templateUrl: './upload.component.html',
-  imports: [CommonModule], // ✅ this fixes your *ngIf / *ngFor error
+  imports: [CommonModule],
+  styleUrls: ['./upload.component.css']
 })
-export class UploadComponent {
+export class UploadsComponent {
   uploadProgress: number | null = null;
-  generatedUrls: string[] = [];
+  shareableUrl: string = '';
+  skippedFiles: string[] = [];
 
-  constructor(private uploadService: Upload) { }
+  constructor(private uploadService: UploadService) {}
 
-  onFilesSelected(event: any): void {
-    const files: FileList = event.target.files;
-    if (!files || files.length === 0) return;
+  onFilesSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
 
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append('files', files[i]);
+    if (!input.files || input.files.length === 0) {
+      console.warn('⚠️ No files selected');
+      return;
     }
 
-    this.uploadService.upload(formData).subscribe({
-      next: (event) => {
+    const selectedFiles = Array.from(input.files);
+    console.log('📂 Selected files:', selectedFiles);
+
+    console.log('🚀 Upload started...');
+    this.uploadService.upload(selectedFiles).subscribe({
+      next: (event: HttpEvent<any>) => {
+        console.log('📡 HTTP Event:', event);
+
         if (event.type === HttpEventType.UploadProgress && event.total) {
-          this.uploadProgress = Math.round((100 * event.loaded) / event.total);
-        } else if (event.type === HttpEventType.Response) {
-          console.log('Upload complete!', event.body);
+          this.uploadProgress = Math.round(100 * (event.loaded / event.total));
+        }
+        else if (event.type === HttpEventType.Response) {
+          const body = event.body;
+          console.log('✅ Upload response raw:', body);
+
+          if (body?.shareableUrl) {
+            this.shareableUrl = body.shareableUrl;
+          } else {
+            console.warn('⚠️ No valid shareable URL in response');
+            this.shareableUrl = '';
+          }
+
+          this.skippedFiles = body?.skippedfiles || [];
           this.uploadProgress = null;
-          this.generatedUrls = event.body.urls || [];
         }
       },
-      error: (err) => {
-        console.error('Upload failed', err);
+      error: (err: any) => {
         this.uploadProgress = null;
+        console.error('❌ Upload failed', err);
       }
     });
+
+    input.value = '';
   }
 
-  copyLink(url: string): void {
+  copyLink(url: string) {
     navigator.clipboard.writeText(url).then(() => {
       alert('Link copied to clipboard!');
-    }).catch(err => {
-      console.error('Failed to copy link: ', err);
     });
   }
 }

@@ -8,13 +8,16 @@
     <span>{{ uploadProgress }}%</span>
   </div>
 
-  <div *ngIf="generatedUrls.length > 0" class="generated-links">
-    <h3>Shareable Links</h3>
+  <div *ngIf="shareableUrl" class="shareable-link">
+    <h3>Shareable URL</h3>
+    <a [href]="shareableUrl" target="_blank">{{ shareableUrl }}</a>
+    <button (click)="copyLink(shareableUrl)">Copy</button>
+  </div>
+
+  <div *ngIf="skippedFiles.length > 0" class="skipped-files">
+    <h3>Skipped Files</h3>
     <ul>
-      <li *ngFor="let url of generatedUrls">
-        <a [href]="url" target="_blank">{{ url }}</a>
-        <button (click)="copyLink(url)">Copy</button>
-      </li>
+      <li *ngFor="let file of skippedFiles">{{ file }}</li>
     </ul>
   </div>
 </div>

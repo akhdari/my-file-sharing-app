@@ -1,28 +1,50 @@
-import { HttpClient, HttpEvent, HttpErrorResponse, HttpEventType } from '@angular/common/http';//HTTP communication
-import { map } from 'rxjs/operators'; //Transforms the emitted response in the pipe.
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs'; //Observable for asynchronous operations and throwError for error handling
+import { HttpClient, HttpEvent, HttpRequest, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class Upload {
-SERVER_URL: string = 'http://localhost:5222/';
-  constructor(private httpClient: HttpClient) { }
-public upload(data: FormData): Observable<any> {
-  const UploadURL = `${this.SERVER_URL}Uploads`;
+export class UploadService {
+  private baseUrl = 'http://localhost:5222/Uploads';
 
-  const authUser = localStorage.getItem('authUser');
-  const token = authUser ? JSON.parse(authUser).token : null;
+  constructor(private http: HttpClient) {}
 
-  return this.httpClient.post<any>(UploadURL, data, {
-    headers: {
+  private getAuthHeaders(): HttpHeaders {
+    let token = '';
+    const authUserStr = localStorage.getItem('authUser');
+
+    if (authUserStr) {
+      try {
+        const authUser = JSON.parse(authUserStr);
+        token = authUser.token || '';
+      } catch (e) {
+        console.error('Failed to parse authUser from localStorage', e);
+      }
+    }
+
+    return new HttpHeaders({
       Authorization: `Bearer ${token}`
-    },
-    reportProgress: true,
-    observe: 'events'
-  });
-}
+    });
+  }
 
+  upload(files: File[]): Observable<HttpEvent<any>> {
+    const formData = new FormData();
+    for (let file of files) {
+      formData.append('files', file);
+    }
 
+    const req = new HttpRequest('POST', this.baseUrl, formData, {
+      reportProgress: true,
+      headers: this.getAuthHeaders()
+    });
+
+    return this.http.request(req);
+  }
+
+  getSharedFiles(token: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/shared/${token}`, {
+      headers: this.getAuthHeaders()
+    });
+  }
 }

@@ -1,16 +1,51 @@
-import { TestBed } from '@angular/core/testing';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpEvent, HttpRequest, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import { Upload } from './upload.service';
+@Injectable({
+  providedIn: 'root'
+})
+export class UploadService {
+  private baseUrl = 'http://localhost:5222/Uploads';
 
-describe('Upload', () => {
-  let service: Upload;
+  constructor(private http: HttpClient) {}
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(Upload);
+private getAuthHeaders(): HttpHeaders {
+  let token = '';
+  const authUserStr = localStorage.getItem('authUser');
+
+  if (authUserStr) {
+    try {
+      const authUser = JSON.parse(authUserStr);
+      token = authUser.token || '';
+    } catch (e) {
+      console.error('Failed to parse authUser:', e);
+    }
+  }
+
+  return new HttpHeaders({
+    Authorization: `Bearer ${token}`
   });
+}
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+
+  upload(files: File[]): Observable<HttpEvent<any>> {
+    const formData = new FormData();
+    for (let file of files) {
+      formData.append('files', file);
+    }
+
+    const req = new HttpRequest('POST', this.baseUrl, formData, {
+      reportProgress: true,
+      headers: this.getAuthHeaders()
+    });
+
+    return this.http.request(req);
+  }
+
+  getSharedFiles(token: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/shared/${token}`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+}

@@ -5,14 +5,15 @@
 :host {
   height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: rgba(253, 101, 133, 1);
   font-family: Arial, sans-serif;
 }
 
-.signup-card {
+.login-card {
+  display: flex;
+  flex-direction: column;
   border-radius: 10px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
   width: 100%;
@@ -39,6 +40,11 @@
 .card-title a {
   color: #4796ff;
   text-decoration: none;
+  font-weight: bold;
+}
+
+.card-title a:hover {
+  text-decoration: underline;
 }
 
 .form-group {
@@ -56,20 +62,7 @@
   font-size: 14px;
 }
 
-.card-terms {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  margin-top: 10px;
-}
-
-.card-terms a {
-  color: #4796ff;
-  text-decoration: none;
-}
-
-button[type="submit"] {
+button {
   background-color: #4796ff;
   color: #ffffff;
   font-size: 16px;
@@ -82,6 +75,6 @@ button[type="submit"] {
   transition: background-color 0.3s ease;
 }
 
-button[type="submit"]:hover {
+button:hover {
   background-color: #347de0;
 }
