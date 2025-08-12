@@ -1,0 +1,24 @@
+<div class="container">
+  <h2>View Shared Files</h2>
+
+  <input
+    type="text"
+    placeholder="Enter shareable token"
+    [(ngModel)]="shareableToken"
+  />
+  <button (click)="loadSharedFiles()" [disabled]="loading || !shareableToken">
+    Load Files
+  </button>
+
+  <div *ngIf="loading">Loading files...</div>
+
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <ul *ngIf="files.length > 0">
+    <li *ngFor="let file of files">
+      {{ getFileName(file) }}
+      <button (click)="openFile(file)">Open</button>
+      <button (click)="downloadFile(file)">Download</button>
+    </li>
+  </ul>
+</div>
