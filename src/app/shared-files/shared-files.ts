@@ -23,20 +23,16 @@ export class SharedFilesComponent {
     this.files = [];
     this.loading = true;
 
-    console.log('Loading files for token:', this.shareableToken);
-
     this.http
       .get<{ files: string[] }>(
         `http://localhost:5222/Uploads/shared/${this.shareableToken}`
       )
       .subscribe({
         next: (res) => {
-          console.log('Files loaded:', res.files);
           this.files = res.files;
           this.loading = false;
         },
-        error: (err) => {
-          console.error('Error loading files:', err);
+        error: () => {
           this.errorMessage = 'Invalid or expired link';
           this.loading = false;
         },
@@ -51,10 +47,15 @@ export class SharedFilesComponent {
     window.open(url, '_blank');
   }
 
-  downloadFile(url: string) {
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = this.getFileName(url);
-    link.click();
-  }
+downloadFile(url: string) {
+  const fileName = this.getFileName(url);
+  const downloadUrl = `http://localhost:5222/Uploads/download/${this.shareableToken}/${encodeURIComponent(fileName)}`;
+  const link = document.createElement('a');
+  link.href = downloadUrl;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 }
