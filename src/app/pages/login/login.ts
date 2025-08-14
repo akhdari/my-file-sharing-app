@@ -25,7 +25,7 @@ export class Login {
       console.log('Form Submitted!', this.loginForm.value);
       this.authService.logIn(this.loginForm.value).subscribe((data: any) => {
         if (this.authService.isloggedIn()) {
-          this.router.navigate(['/admin']);
+          this.router.navigate(['/upload']);
         }
         console.log(data);
       });

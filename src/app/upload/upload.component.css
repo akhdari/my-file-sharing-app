@@ -4,6 +4,27 @@
   margin: auto;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 28px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+.logout-btn:hover {
+  color: red;
+}
+
 .progress-bar-container {
   margin-top: 10px;
   background: #e0e0e0;

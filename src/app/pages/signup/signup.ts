@@ -16,7 +16,7 @@ export class Signup {
     username: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
-    termsAccepted: new FormControl(false, [Validators.requiredTrue]) // ✅ added
+    termsAccepted: new FormControl(false, [Validators.requiredTrue])
   });
 
 

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UploadService } from './upload.service';
 import { HttpEventType, HttpEvent } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-uploads',
@@ -14,7 +15,7 @@ export class UploadsComponent {
   shareableUrl: string = '';
   skippedFiles: string[] = [];
 
-  constructor(private uploadService: UploadService) {}
+  constructor(private uploadService: UploadService, private router: Router) {}
 
   onFilesSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -63,5 +64,11 @@ export class UploadsComponent {
     navigator.clipboard.writeText(url).then(() => {
       alert('Link copied to clipboard!');
     });
+  }
+
+  logout() {
+    localStorage.removeItem('authUser');
+    console.log('User logged out');
+    this.router.navigate(['/login']);
   }
 }
