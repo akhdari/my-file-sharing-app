@@ -1,15 +1,60 @@
 <div class="signup-container">
   <h2>Sign Up</h2>
   <form class="form-group" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-    <input type="text" name="username" placeholder="Username" formControlName="username" />
-    <input type="email" name="email" placeholder="Email" formControlName="email" />
-    <input type="password" name="password" placeholder="Password" formControlName="password" />
+    <!-- Username -->
+    <input
+      type="text"
+      name="username"
+      placeholder="Username"
+      formControlName="username"
+      [class.invalid]="signupForm.get('username')?.invalid && signupForm.get('username')?.touched"
+    />
+    <div *ngIf="signupForm.get('username')?.invalid && signupForm.get('username')?.touched" class="error-message">
+      Username is required.
+    </div>
 
+    <!-- Email -->
+    <input
+      type="email"
+      name="email"
+      placeholder="Email"
+      formControlName="email"
+      [class.invalid]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched"
+    />
+    <div *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="error-message">
+      Please enter a valid email.
+    </div>
+
+    <!-- Password -->
+    <input
+      type="password"
+      name="password"
+      placeholder="Password"
+      formControlName="password"
+      [class.invalid]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
+    />
+    <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="error-message">
+      Password is required.
+    </div>
+
+    <!-- Terms checkbox -->
     <label class="card-terms">
-      <input type="checkbox" formControlName="termsAccepted" />
-      I have read and agree to the <a href="#">Terms of Service</a>
+      <input
+        type="checkbox"
+        formControlName="termsAccepted"
+        [class.invalid]="signupForm.get('termsAccepted')?.invalid && signupForm.get('termsAccepted')?.touched"
+      />
+      I have read and agree to the <a href="/terms-of-service">Terms of Service</a>
     </label>
+    <div *ngIf="signupForm.get('termsAccepted')?.invalid && signupForm.get('termsAccepted')?.touched" class="error-message">
+      You must accept the terms.
+    </div>
 
     <button type="submit">Sign Up</button>
   </form>
+
+  <!-- Backend error -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
 </div>

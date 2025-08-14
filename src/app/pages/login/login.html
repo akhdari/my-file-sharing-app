@@ -1,13 +1,40 @@
-<div class="login-card">
+<div class="login-container">
   <div class="card-title">
     <h1>Login</h1>
     <span>You don't have an account?
       <a routerLink="/register">Sign up</a>
     </span>
   </div>
+
   <form class="form-group" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <input name="email" type="email" formControlName="email" placeholder="Email" />
-    <input type="password" formControlName="password" placeholder="Password" />
-    <button>Submit</button>
+    <!-- Email -->
+    <input
+      name="email"
+      type="email"
+      formControlName="email"
+      placeholder="Email"
+      [class.invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+    />
+    <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error-message">
+      Please enter a valid email.
+    </div>
+
+    <!-- Password -->
+    <input
+      type="password"
+      formControlName="password"
+      placeholder="Password"
+      [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+    />
+    <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+      Password is required.
+    </div>
+
+    <button type="submit">Submit</button>
   </form>
+
+  <!-- Backend error -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
 </div>

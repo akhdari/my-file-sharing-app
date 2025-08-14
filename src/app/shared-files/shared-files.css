@@ -77,3 +77,27 @@ li button {
 li button:hover:not([disabled]) {
   background-color: #1976d2;
 }
+.nav-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px auto;
+}
+
+.nav-tabs a {
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: #333;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.nav-tabs a:hover {
+  background-color: #e6e6e6;
+}
+
+.nav-tabs a.active {
+  background-color: #4796ff;
+  color: white;
+}

@@ -1,3 +1,7 @@
+<nav class="nav-tabs">
+  <a routerLink="/upload" routerLinkActive="active">Upload</a>
+  <a routerLink="/view" routerLinkActive="active">View</a>
+</nav>
 <div class="container">
   <div class="header">
     <h2>View Shared Files</h2>
@@ -6,11 +10,7 @@
     </button>
   </div>
 
-  <input
-    type="text"
-    placeholder="Enter shareable token"
-    [(ngModel)]="shareableToken"
-  />
+  <input type="text" placeholder="Enter shareable token" [(ngModel)]="shareableToken" />
   <button (click)="loadSharedFiles()" [disabled]="loading || !shareableToken">
     Load Files
   </button>

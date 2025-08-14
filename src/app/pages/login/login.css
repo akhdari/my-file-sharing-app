@@ -3,28 +3,23 @@
 }
 
 :host {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   background-color: #f4f4f4;
   font-family: Arial, sans-serif;
 }
 
-.login-card {
+.login-container {
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  border-radius: 10px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 450px;
-  background-color: #ffffff;
-  padding: 24px 32px;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
 .card-title {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .card-title h1 {
@@ -52,7 +47,9 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px; /* reduced gap to keep error messages close */
+  width: 100%;
+  max-width: 400px;
 }
 
 .form-group input {
@@ -67,6 +64,11 @@
 
 .form-group input:focus {
   border: 1px solid #4796ff;
+}
+
+input.invalid {
+  border: 1px solid #d9534f;
+  background-color: #fef2f2;
 }
 
 button {
@@ -89,4 +91,11 @@ button:hover {
 button:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(71, 150, 255, 0.3);
+}
+
+.error-message {
+  color: #d9534f;
+  font-size: 13px;
+  margin-bottom: 8px;
+  text-align: left;
 }

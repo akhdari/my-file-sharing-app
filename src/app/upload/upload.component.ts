@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { UploadService } from './upload.service';
 import { HttpEventType, HttpEvent } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-uploads',
+  standalone: true,
   templateUrl: './upload.component.html',
-  imports: [CommonModule],
-  styleUrls: ['./upload.component.css']
+  styleUrls: ['./upload.component.css'],
+  imports: [CommonModule, RouterLink, RouterLinkActive]
 })
 export class UploadsComponent {
   uploadProgress: number | null = null;

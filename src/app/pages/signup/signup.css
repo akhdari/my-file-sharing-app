@@ -19,7 +19,7 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px; /* reduced gap to keep error messages close */
   width: 100%;
   max-width: 400px;
 }
@@ -35,6 +35,11 @@
 
 .form-group input:focus {
   border-color: #4796ff;
+}
+
+input.invalid {
+  border: 1px solid #d9534f;
+  background-color: #fef2f2;
 }
 
 .card-terms {
@@ -74,4 +79,11 @@ button:hover {
 
 button:focus {
   outline: none;
+}
+
+.error-message {
+  color: #d9534f;
+  font-size: 13px;
+  margin-bottom: 8px;
+  text-align: left;
 }

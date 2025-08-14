@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-shared-files',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive],
   templateUrl: './shared-files.html',
   styleUrls: ['./shared-files.css'],
 })
@@ -62,6 +62,6 @@ export class SharedFilesComponent {
   logout() {
     localStorage.removeItem('authUser');
     console.log('User logged out');
-    this.router.navigate(['/login']); // Make sure /login route exists
+    this.router.navigate(['/login']);
   }
 }
