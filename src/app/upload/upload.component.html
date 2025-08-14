@@ -2,6 +2,7 @@
   <a routerLink="/upload" routerLinkActive="active">Upload</a>
   <a routerLink="/view" routerLinkActive="active">View</a>
 </nav>
+
 <div class="upload-container">
   <div class="header">
     <h2>Upload Files</h2>
@@ -26,7 +27,9 @@
   <div *ngIf="skippedFiles.length > 0" class="skipped-files">
     <h3>Skipped Files</h3>
     <ul>
-      <li *ngFor="let file of skippedFiles">{{ file }}</li>
+      <li *ngFor="let file of skippedFiles">
+        {{ file }}
+      </li>
     </ul>
   </div>
 </div>

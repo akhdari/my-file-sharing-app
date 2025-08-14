@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { openFile as openFileUtil } from '../utils/file-utils';
 
 @Component({
   selector: 'app-shared-files',
@@ -45,7 +46,7 @@ export class SharedFilesComponent {
   }
 
   openFile(url: string) {
-    window.open(url, '_blank');
+    openFileUtil(url);
   }
 
   downloadFile(url: string) {

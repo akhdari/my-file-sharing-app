@@ -3,6 +3,7 @@ import { UploadService } from './upload.service';
 import { HttpEventType, HttpEvent } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { openFile as openFileUtil } from '../utils/file-utils';
 
 @Component({
   selector: 'app-uploads',
@@ -60,12 +61,27 @@ export class UploadsComponent {
 
     input.value = '';
   }
-
-  copyLink(url: string) {
-    navigator.clipboard.writeText(url).then(() => {
-      alert('Link copied to clipboard!');
-    });
+  openFile(url: string) {
+    openFileUtil(url);
   }
+copyLink(url: string) {
+  try {
+    const parts = url.split('/');
+    const token = parts[parts.length - 1];
+
+    if (token) {
+      navigator.clipboard.writeText(token).then(() => {
+        alert('Token copied to clipboard!');
+      });
+    } else {
+      alert('⚠️ No token found in URL');
+    }
+  } catch (error) {
+    console.error('Invalid URL:', url);
+    alert('❌ Failed to copy token');
+  }
+}
+
 
   logout() {
     localStorage.removeItem('authUser');
